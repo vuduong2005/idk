@@ -1,44 +1,40 @@
-import tkinter as tk  # imports the tkinter module
-import font_manager as font
-from check_videos import CheckVideos
+import tkinter as tk
+from tkinter import ttk
 from create_video_list import CreateVideo
+from check_videos import CheckVideos
 from update_videos import UpdateVideo
+import font_manager as font
 
+class MainApp:
+    def __init__(self, root):
+        self.root = root
+        root.geometry("1200x600")
+        root.title("Video Library")
 
-def check_videos_clicked():
-    status_lbl.configure(text="Check Videos Button clicked!")
-    CheckVideos(tk.Toplevel(window))
+        # Configure fonts
+        font.configure()
 
+        # Create notebook (tabs) and frames
+        self.tab_control = ttk.Notebook(root)
+        self.tab_control.pack(expand=1, fill="both")
 
-def create_playlist_clicked():
-    status_lbl.configure(text="Create Playlist Button clicked!")
-    CreateVideo(tk.Toplevel(window))
+        # Create tabs
+        self.create_video_tab = ttk.Frame(self.tab_control)
+        self.check_videos_tab = ttk.Frame(self.tab_control)
+        self.update_video_tab = ttk.Frame(self.tab_control)
 
+        self.tab_control.add(self.create_video_tab, text="Create Video")
+        self.tab_control.add(self.check_videos_tab, text="Check Videos")
+        self.tab_control.add(self.update_video_tab, text="Update Video")
 
-def update_playlist_clicked():
-    status_lbl.configure(text="Update Playlist Button clicked!")
-    UpdateVideo(tk.Toplevel(window))
+        # Initialize frames for each tab
+        self.create_video_app = CreateVideo(self.create_video_tab)
+        self.check_videos_app = CheckVideos(self.check_videos_tab)
+        self.update_video_app = UpdateVideo(self.update_video_tab)
+        
 
-
-window = tk.Tk()
-window.geometry("520x150")
-window.title("Video Player")
-
-font.configure()
-
-header_lbl = tk.Label(window, text="Select one of the options below:")
-header_lbl.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
-
-check_videos_btn = tk.Button(window, text="Check Videos", command=check_videos_clicked)
-check_videos_btn.grid(row=1, column=0, padx=10, pady=10)
-
-create_video_list_btn = tk.Button(window, text="Create Video List", command=create_playlist_clicked)
-create_video_list_btn.grid(row=1, column=1, padx=10, pady=10)
-
-update_videos_btn = tk.Button(window, text="Update Videos", command=update_playlist_clicked)
-update_videos_btn.grid(row=1, column=2, padx=10, pady=10)
-
-status_lbl = tk.Label(window, text="", font=("Helvetica", 10))
-status_lbl.grid(row=2, column=0, columnspan=3, padx=10, pady=10)
-
-window.mainloop()
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = MainApp(root)
+    root.mainloop()
+    

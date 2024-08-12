@@ -1,3 +1,4 @@
+import library as lib
 import tkinter as tk  # imports the tkinter module
 import tkinter.scrolledtext as tkst # imports the scrolled-text function from tkinter as tkst
 import csv
@@ -7,34 +8,31 @@ def set_text(text_area, content):
     text_area.delete("1.0", tk.END)
     text_area.insert(1.0, content)
 
-class UpdateVideo():
-    def __init__(self, window):
-        self.window = window
-        window.title("Update Movies")
-        window.geometry("600x500")
-
-        # Movie List Label
-        self.movie_list_label = tk.Label(window, text="Select Movie:")
+class UpdateVideo:
+    def __init__(self, frame):
+        self.frame = frame
+     # Movie List Label
+        self.movie_list_label = tk.Label(frame, text="Select Movie:")
         self.movie_list_label.pack(pady=10)
 
         # Scrollable Listbox for Movies
-        self.movie_listbox = tk.Listbox(window, width=70, height=10)
+        self.movie_listbox = tk.Listbox(frame, width=70, height=10)
         self.movie_listbox.pack(pady=10)
         self.load_movies()
 
         # New Rating Label and Entry
-        self.rating_label = tk.Label(window, text="New Rating:")
+        self.rating_label = tk.Label(frame, text="New Rating:")
         self.rating_label.pack(pady=10)
 
-        self.rating_entry = tk.Entry(window, width=50)
+        self.rating_entry = tk.Entry(frame, width=50)
         self.rating_entry.pack(pady=5)
 
         # Update Button
-        self.update_button = tk.Button(window, text="Update Rating", command=self.update_rating)
+        self.update_button = tk.Button(frame, text="Update Rating", command=self.update_rating)
         self.update_button.pack(pady=20)
 
         # Text Area to show feedback
-        self.feedback_area = tkst.ScrolledText(window, width=70, height=10)
+        self.feedback_area = tkst.ScrolledText(frame, width=70, height=10)
         self.feedback_area.pack(pady=10)
 
     def load_movies(self):
@@ -69,4 +67,3 @@ class UpdateVideo():
             writer.writerow(["ID", "name", "author", "rating", "views"])
             for movie in Movies.movies:
                 writer.writerow([movie.id, movie.name, movie.author, movie.rating, movie.views])
-
